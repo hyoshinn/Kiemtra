@@ -1,0 +1,73 @@
+﻿@model Sinhvien.Models.SinhVien
+
+@{
+    ViewData["Title"] = "Sửa Sinh Viên";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="MaSv">Mã Sinh Viên</label>
+        <input type="text" class="form-control" id="MaSv" name="MaSv" value="@Model.MaSv" readonly required />
+    </div>
+
+    <div class="form-group">
+        <label for="HoTen">Họ Tên</label>
+        <input type="text" class="form-control" id="HoTen" name="HoTen" value="@Model.HoTen" required />
+    </div>
+     @{
+    Layout = null; // Nếu bạn không sử dụng layout
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+}
+
+
+    <div class="form-group">
+        <label for="GioiTinh">Giới Tính</label>
+        <select class="form-control" id="GioiTinh" name="GioiTinh" required>
+            <option value="Nam" @(Model.GioiTinh == "Nam" ? "selected" : "")>Nam</option>
+            <option value="Nữ" @(Model.GioiTinh == "Nữ" ? "selected" : "")>Nữ</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="NgaySinh">Ngày Sinh</label>
+        <input type="date" class="form-control" id="NgaySinh" name="NgaySinh" value="@Model.NgaySinh?.ToString("yyyy-MM-dd")" required />
+    </div>
+
+    <div class="form-group">
+        <label for="MaNganh">Ngành</label>
+        <select class="form-control" id="MaNganh" name="MaNganh" required>
+            <option value="">Chọn Ngành</option>
+            @foreach (var nganh in ViewData["MaNganh"] as SelectList)
+            {
+                <option value="@nganh.Value" @(Model.MaNganh == (String)nganh.Value ? "selected" : "")>@nganh.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Hinh">Hình Ảnh</label>
+        <input type="file" class="form-control-file" id="Hinh" name="Hinh" />
+        <small class="form-text text-muted">Chọn hình ảnh cho sinh viên (optional).</small>
+        @if (!string.IsNullOrEmpty(Model.Hinh))
+        {
+            <div class="mt-3">
+                <label>Hình ảnh hiện tại:</label>
+                <img src="@Url.Content("~/Content/images/" + Model.Hinh)" alt="Hình ảnh sinh viên" class="img-fluid" style="max-width: 150px;" />
+            </div>
+        }
+        else
+        {
+            <div class="mt-3">
+                <label>Hình ảnh mặc định:</label>
+                <img src="@Url.Content("~/Content/images/sv1.jpg")" alt="Hình ảnh sinh viên mặc định" class="img-fluid" style="max-width: 150px;" />
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-success">Lưu Thay Đổi</button>
+</form>
+
+<a href="@Url.Action("Index", "SinhVien")" class="btn btn-secondary" style="margin-top: 10px;">Quay lại</a>

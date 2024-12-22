@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Sinhvien.Models.DangKy>
+
+@{
+    ViewData["Title"] = "Danh Sách Học Phần Đã Đăng Ký";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã Đăng Ký</th>
+            <th>Ngày Đăng Ký</th>
+            <th>Tên Sinh Viên</th>
+            <th>Học Phần</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dangKy in Model)
+        {
+            <tr>
+                <td>@dangKy.MaDk</td>
+                <td>@dangKy.NgayDk?.ToString("dd/MM/yyyy")</td>
+                <td>@dangKy.MaSvNavigation?.HoTen</td>
+                <td>
+                    @foreach (var hocPhan in dangKy.MaHps)
+                    {
+                        <p>@hocPhan.TenHp</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Index", "SinhVien")" class="btn btn-secondary" style="margin-top: 10px;">Quay lại</a>

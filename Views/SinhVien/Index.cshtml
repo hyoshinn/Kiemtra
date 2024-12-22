@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Sinhvien.Models.SinhVien>
+
+<h2>Danh sách Sinh viên</h2>
+<table style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Mã SV</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Họ Tên</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Giới Tính</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Ngày Sinh</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Hình Ảnh</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Ngành</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Tác Vụ</th> <!-- Cột tác vụ -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">@item.MaSv</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@item.HoTen</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@item.GioiTinh</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@item.NgaySinh?.ToShortDateString()</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">
+                    @if (!string.IsNullOrEmpty(item.Hinh))
+                    {
+                        <img src="~/content/images/sv1.jpg" alt="Hình ảnh" style="width: 100px; height: auto;" />
+                    }
+                    else
+                    {
+						<img src="~/content/images/sv1.jpg" alt="Hình ảnh mặc định" style="width: 100px; height: auto; " />
+                    }
+                </td>
+                <td style="padding: 10px; border: 1px solid #ddd;">@item.MaNganh</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">
+                    <!-- Các nút Thêm, Sửa, Xóa -->
+                    <a href="@Url.Action("Detail", "SinhVien", new { id = item.MaSv })" class="btn btn-info">Chi Tiết</a>
+                    <a href="@Url.Action("Edit", "SinhVien", new { id = item.MaSv })" class="btn btn-warning" style="padding: 5px 10px; margin-right: 5px;">Sửa</a>
+                    <a href="@Url.Action("Delete", "SinhVien", new { id = item.MaSv })" class="btn btn-danger" style="padding: 5px 10px; margin-right: 5px;">Xóa</a>
+                    <a href="@Url.Action("ListHP", "DangKy", new { id = item.MaSv })" class="btn btn-info">Xem Danh Sách Học Phần</a>
+                    <!-- Nút Thêm thường sẽ không có cho mỗi hàng, nhưng nếu cần, bạn có thể đặt ở một nơi thích hợp, ví dụ dưới bảng -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Thêm nút Thêm ở phía dưới bảng -->
+<a href="@Url.Action("Create", "SinhVien")" class="btn btn-success" style="margin-top: 20px; padding: 5px 15px;">Thêm Sinh Viên</a>
